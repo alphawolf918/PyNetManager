@@ -12,39 +12,39 @@ namespace PyNetManager {
 
 		private void FrmMain_Load(object sender, EventArgs e) {
 			PopulateListView();
-			SizeLastColumn(lsSpeeds);
+			SizeLastColumn(lv: lsSpeeds);
 			dtFrom.Value = new DateTime(2018, 11, 11);
 			dtTo.Value = DateTime.Today;
 		}
 
-		private void btnRefresh_Click(object sender, EventArgs e) => RefreshList();
-
 		private void PopulateListView() {
 			SqlConnection sqlCon = new SqlConnection(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=PyNet;
 										 Trusted_Connection=yes;");
-			string strSQL = "SELECT * FROM view_net_speeds WHERE DateLogged BETWEEN '" + dtFrom.Value + "' AND '" + dtTo.Value + "' ORDER BY ID DESC;";
-			try {
-				sqlCon.Open();
-				SqlDataAdapter sqlData = new SqlDataAdapter(strSQL, sqlCon);
-				DataSet dataSet = new DataSet();
-				sqlData.Fill(dataSet, "view_net_speeds");
-				sqlCon.Close();
+			string strSQL = "SELECT * FROM view_net_speeds " +
+							"WHERE DateLogged BETWEEN '" + dtFrom.Value + "' AND '" + dtTo.Value + "' " +
+							"ORDER BY ID DESC;";
+				try {
+					sqlCon.Open();
+					SqlDataAdapter sqlData = new SqlDataAdapter(strSQL, sqlCon);
+					DataSet dataSet = new DataSet();
+					sqlData.Fill(dataSet, "view_net_speeds");
+					sqlCon.Close();
 
-				DataTable dataTbl = dataSet.Tables[0];
-				int i = 0;
-				foreach (DataRow row in dataTbl.Rows) {
-					ListViewItem viewItem = new ListViewItem {
-						Text = Convert.ToString(row["ID"])
-					};
-					viewItem.SubItems.Add(text: Convert.ToString(row["Upload"]));
-					viewItem.SubItems.Add(text: Convert.ToString(row["Download"]));
-					viewItem.SubItems.Add(text: Convert.ToString(row["DateLogged"]));
-					lsSpeeds.Items.Add(value: viewItem);
-					if (i % 2 == 0) {
-						viewItem.BackColor = SystemColors.Menu;
+					DataTable dataTbl = dataSet.Tables[0];
+					int i = 0;
+					foreach (DataRow row in dataTbl.Rows) {
+						ListViewItem viewItem = new ListViewItem {
+							Text = Convert.ToString(row["ID"])
+						};
+						viewItem.SubItems.Add(text: Convert.ToString(row["Upload"]));
+						viewItem.SubItems.Add(text: Convert.ToString(row["Download"]));
+						viewItem.SubItems.Add(text: Convert.ToString(row["DateLogged"]));
+						lsSpeeds.Items.Add(value: viewItem);
+						if (i % 2 == 0) {
+							viewItem.BackColor = SystemColors.Menu;
+						}
+						i++;
 					}
-					i++;
-				}
 			} catch (Exception ex) {
 				Console.WriteLine(ex.StackTrace);
 			}
@@ -69,7 +69,8 @@ namespace PyNetManager {
 			RemoveAll();
 			PopulateListView();
 		}
-
+		
+		private void btnRefresh_Click(object sender, EventArgs e) => RefreshList();
 		private void dtFrom_ValueChanged(object sender, EventArgs e) => RefreshList();
 		private void dtTo_ValueChanged(object sender, EventArgs e) => RefreshList();
 	}
