@@ -53,13 +53,12 @@ namespace PyNetManager {
 			}
 		}
 
-		private void SizeLastColumn(ListView lv) {
-			lv.Columns[lv.Columns.Count - 1].Width = -2;
-		}
+		private void SizeLastColumn(ListView lv) => lv.Columns[lv.Columns.Count - 1].Width = -2;
 
 		private void btnRunScript_Click(object sender, EventArgs e) {
 			ProcessStartInfo procInfo = new ProcessStartInfo(@"C:\Tasks\PyNet.py");
-			Process.Start(procInfo);
+			Process proc = Process.Start(procInfo);
+			proc.WaitForExit();
 			RefreshList();
 		}
 
