@@ -13,6 +13,8 @@ namespace PyNetManager {
 		private void FrmMain_Load(object sender, EventArgs e) {
 			PopulateListView();
 			SizeLastColumn(lsSpeeds);
+			dtFrom.Value = new DateTime(2018, 11, 11);
+			dtTo.Value = DateTime.Today;
 		}
 
 		private void btnRefresh_Click(object sender, EventArgs e) => RefreshList();
@@ -20,9 +22,10 @@ namespace PyNetManager {
 		private void PopulateListView() {
 			SqlConnection sqlCon = new SqlConnection(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=PyNet;
 										 Trusted_Connection=yes;");
+			string strSQL = "SELECT * FROM view_net_speeds WHERE DateLogged BETWEEN '" + dtFrom.Value + "' AND '" + dtTo.Value + "' ORDER BY ID DESC;";
 			try {
 				sqlCon.Open();
-				SqlDataAdapter sqlData = new SqlDataAdapter("SELECT * FROM view_net_speeds ORDER BY ID DESC;", sqlCon);
+				SqlDataAdapter sqlData = new SqlDataAdapter(strSQL, sqlCon);
 				DataSet dataSet = new DataSet();
 				sqlData.Fill(dataSet, "view_net_speeds");
 				sqlCon.Close();
@@ -66,5 +69,8 @@ namespace PyNetManager {
 			RemoveAll();
 			PopulateListView();
 		}
+
+		private void dtFrom_ValueChanged(object sender, EventArgs e) => RefreshList();
+		private void dtTo_ValueChanged(object sender, EventArgs e) => RefreshList();
 	}
 }

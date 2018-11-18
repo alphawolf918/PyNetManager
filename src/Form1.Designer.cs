@@ -32,13 +32,16 @@
 			this.colDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.btnRefresh = new System.Windows.Forms.Button();
 			this.btnRunScript = new System.Windows.Forms.Button();
+			this.lblDateRange = new System.Windows.Forms.Label();
+			this.dtFrom = new System.Windows.Forms.DateTimePicker();
+			this.dtTo = new System.Windows.Forms.DateTimePicker();
 			this.SuspendLayout();
 			// 
 			// lblSpeeds
 			// 
 			this.lblSpeeds.AutoSize = true;
 			this.lblSpeeds.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblSpeeds.Location = new System.Drawing.Point(14, 22);
+			this.lblSpeeds.Location = new System.Drawing.Point(12, 9);
 			this.lblSpeeds.Name = "lblSpeeds";
 			this.lblSpeeds.Size = new System.Drawing.Size(167, 16);
 			this.lblSpeeds.TabIndex = 0;
@@ -54,11 +57,11 @@
             this.colDownload,
             this.colDate});
 			this.lsSpeeds.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lsSpeeds.FullRowSelect = true;
 			this.lsSpeeds.GridLines = true;
 			this.lsSpeeds.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.lsSpeeds.HideSelection = false;
 			this.lsSpeeds.Location = new System.Drawing.Point(14, 94);
-			this.lsSpeeds.MultiSelect = false;
 			this.lsSpeeds.Name = "lsSpeeds";
 			this.lsSpeeds.Size = new System.Drawing.Size(674, 409);
 			this.lsSpeeds.TabIndex = 1;
@@ -109,11 +112,44 @@
 			this.btnRunScript.UseVisualStyleBackColor = true;
 			this.btnRunScript.Click += new System.EventHandler(this.btnRunScript_Click);
 			// 
+			// lblDateRange
+			// 
+			this.lblDateRange.AutoSize = true;
+			this.lblDateRange.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.lblDateRange.Location = new System.Drawing.Point(236, 9);
+			this.lblDateRange.Name = "lblDateRange";
+			this.lblDateRange.Size = new System.Drawing.Size(144, 16);
+			this.lblDateRange.TabIndex = 6;
+			this.lblDateRange.Text = "Specify Date Range:";
+			// 
+			// dtFrom
+			// 
+			this.dtFrom.CustomFormat = "mm/dd/yyyy";
+			this.dtFrom.Location = new System.Drawing.Point(239, 29);
+			this.dtFrom.Name = "dtFrom";
+			this.dtFrom.Size = new System.Drawing.Size(221, 21);
+			this.dtFrom.TabIndex = 7;
+			this.dtFrom.Value = new System.DateTime(2018, 11, 11, 0, 0, 0, 0);
+			this.dtFrom.ValueChanged += new System.EventHandler(this.dtFrom_ValueChanged);
+			// 
+			// dtTo
+			// 
+			this.dtTo.Location = new System.Drawing.Point(466, 29);
+			this.dtTo.MinDate = new System.DateTime(2018, 1, 11, 0, 0, 0, 0);
+			this.dtTo.Name = "dtTo";
+			this.dtTo.Size = new System.Drawing.Size(221, 21);
+			this.dtTo.TabIndex = 8;
+			this.dtTo.Value = new System.DateTime(2018, 11, 18, 0, 0, 0, 0);
+			this.dtTo.ValueChanged += new System.EventHandler(this.dtTo_ValueChanged);
+			// 
 			// FrmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(700, 515);
+			this.Controls.Add(this.dtTo);
+			this.Controls.Add(this.dtFrom);
+			this.Controls.Add(this.lblDateRange);
 			this.Controls.Add(this.btnRunScript);
 			this.Controls.Add(this.btnRefresh);
 			this.Controls.Add(this.lsSpeeds);
@@ -141,6 +177,9 @@
 		private System.Windows.Forms.ColumnHeader colDate;
 		private System.Windows.Forms.Button btnRefresh;
 		private System.Windows.Forms.Button btnRunScript;
+		private System.Windows.Forms.Label lblDateRange;
+		private System.Windows.Forms.DateTimePicker dtFrom;
+		private System.Windows.Forms.DateTimePicker dtTo;
 	}
 }
 
