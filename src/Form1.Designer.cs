@@ -35,6 +35,7 @@
 			this.lblDateRange = new System.Windows.Forms.Label();
 			this.dtFrom = new System.Windows.Forms.DateTimePicker();
 			this.dtTo = new System.Windows.Forms.DateTimePicker();
+			this.sqlService = new System.ServiceProcess.ServiceController();
 			this.SuspendLayout();
 			// 
 			// lblSpeeds
@@ -50,7 +51,6 @@
 			// lsSpeeds
 			// 
 			this.lsSpeeds.BackColor = System.Drawing.SystemColors.Window;
-			this.lsSpeeds.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.lsSpeeds.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colID,
             this.colUpload,
@@ -134,6 +134,7 @@
 			// 
 			// dtTo
 			// 
+			this.dtTo.CustomFormat = "mm/dd/yyyy";
 			this.dtTo.Location = new System.Drawing.Point(466, 29);
 			this.dtTo.MinDate = new System.DateTime(2018, 1, 11, 0, 0, 0, 0);
 			this.dtTo.Name = "dtTo";
@@ -142,11 +143,15 @@
 			this.dtTo.Value = new System.DateTime(2018, 11, 18, 0, 0, 0, 0);
 			this.dtTo.ValueChanged += new System.EventHandler(this.dtTo_ValueChanged);
 			// 
+			// sqlService
+			// 
+			this.sqlService.ServiceName = "MSSQL$SQLEXPRESS01";
+			// 
 			// FrmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(700, 515);
+			this.ClientSize = new System.Drawing.Size(697, 515);
 			this.Controls.Add(this.dtTo);
 			this.Controls.Add(this.dtFrom);
 			this.Controls.Add(this.lblDateRange);
@@ -180,6 +185,7 @@
 		private System.Windows.Forms.Label lblDateRange;
 		private System.Windows.Forms.DateTimePicker dtFrom;
 		private System.Windows.Forms.DateTimePicker dtTo;
+		public System.ServiceProcess.ServiceController sqlService;
 	}
 }
 
