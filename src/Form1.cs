@@ -3,8 +3,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
-using System.Windows.Forms;
 using System.ServiceProcess;
+using System.Windows.Forms;
 
 namespace PyNetManager {
 
@@ -25,8 +25,9 @@ namespace PyNetManager {
 		}
 
 		private void PopulateListView() {
-			SqlConnection sqlCon = new SqlConnection(@"Data Source=localhost\SQLEXPRESS01;Initial Catalog=PyNet;
-										 Trusted_Connection=yes;");
+			SqlConnection sqlCon = new SqlConnection(@"Data Source=localhost\SQLEXPRESS01;
+													   Initial Catalog=PyNet;
+													   Trusted_Connection=yes;");
 
 			string strSQL = "SELECT * FROM view_net_speeds " +
 							"WHERE DateLogged BETWEEN '" + dtFrom.Value + "' AND '" + dtTo.Value + "' " +
@@ -47,6 +48,7 @@ namespace PyNetManager {
 					};
 					viewItem.SubItems.Add(CStr(row["Upload"]));
 					viewItem.SubItems.Add(CStr(row["Download"]));
+					viewItem.SubItems.Add(CStr(row["Network"]).Replace(" ", ""));
 					viewItem.SubItems.Add(CStr(row["DateLogged"]));
 					lsSpeeds.Items.Add(value: viewItem);
 					if (i % 2 == 0) {
@@ -57,14 +59,15 @@ namespace PyNetManager {
 			} catch (SqlException ex) {
 				DialogResult msgRes = MessageBox.Show(conErrorStr + ex.Message, "Connection Error", MessageBoxButtons.AbortRetryIgnore);
 				if (msgRes == DialogResult.Retry) {
-					//TODO
 					goto Connect;
 				} else if (msgRes == DialogResult.Ignore) {
-					//TODO
+					goto End;
 				} else {
 					Environment.Exit(1);
 				}
 			}
+		End:
+			;
 		}
 
 		private void RemoveAll() {
@@ -80,6 +83,10 @@ namespace PyNetManager {
 			RefreshList();
 		}
 
+		private void ls_DoubleClick(object sender, EventArgs e) {
+			//TODO
+		}
+
 		private void RefreshList() {
 			RemoveAll();
 			PopulateListView();
@@ -90,5 +97,6 @@ namespace PyNetManager {
 		private void btnRefresh_Click(object sender, EventArgs e) => RefreshList();
 		private void dtFrom_ValueChanged(object sender, EventArgs e) => RefreshList();
 		private void dtTo_ValueChanged(object sender, EventArgs e) => RefreshList();
+
 	}
 }

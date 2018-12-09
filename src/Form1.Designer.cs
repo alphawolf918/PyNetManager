@@ -1,4 +1,6 @@
-﻿namespace PyNetManager {
+﻿using System;
+
+namespace PyNetManager {
 	partial class FrmMain {
 		/// <summary>
 		/// Required designer variable.
@@ -30,6 +32,7 @@
 			this.colUpload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.colDownload = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.colDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.colNetName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.btnRefresh = new System.Windows.Forms.Button();
 			this.btnRunScript = new System.Windows.Forms.Button();
 			this.lblDateRange = new System.Windows.Forms.Label();
@@ -55,18 +58,20 @@
             this.colID,
             this.colUpload,
             this.colDownload,
+            this.colNetName,
             this.colDate});
 			this.lsSpeeds.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.lsSpeeds.FullRowSelect = true;
 			this.lsSpeeds.GridLines = true;
 			this.lsSpeeds.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
 			this.lsSpeeds.HideSelection = false;
-			this.lsSpeeds.Location = new System.Drawing.Point(14, 94);
+			this.lsSpeeds.Location = new System.Drawing.Point(11, 94);
 			this.lsSpeeds.Name = "lsSpeeds";
-			this.lsSpeeds.Size = new System.Drawing.Size(674, 409);
+			this.lsSpeeds.Size = new System.Drawing.Size(759, 409);
 			this.lsSpeeds.TabIndex = 1;
 			this.lsSpeeds.UseCompatibleStateImageBehavior = false;
 			this.lsSpeeds.View = System.Windows.Forms.View.Details;
+			this.lsSpeeds.DoubleClick += new System.EventHandler(this.ls_DoubleClick);
 			// 
 			// colID
 			// 
@@ -88,12 +93,17 @@
 			// colDate
 			// 
 			this.colDate.Text = "Date Logged";
-			this.colDate.Width = 303;
+			this.colDate.Width = 234;
+			// 
+			// colNetName
+			// 
+			this.colNetName.Text = "Network";
+			this.colNetName.Width = 180;
 			// 
 			// btnRefresh
 			// 
 			this.btnRefresh.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnRefresh.Location = new System.Drawing.Point(14, 59);
+			this.btnRefresh.Location = new System.Drawing.Point(12, 59);
 			this.btnRefresh.Name = "btnRefresh";
 			this.btnRefresh.Size = new System.Drawing.Size(96, 29);
 			this.btnRefresh.TabIndex = 2;
@@ -104,7 +114,7 @@
 			// btnRunScript
 			// 
 			this.btnRunScript.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.btnRunScript.Location = new System.Drawing.Point(592, 59);
+			this.btnRunScript.Location = new System.Drawing.Point(675, 59);
 			this.btnRunScript.Name = "btnRunScript";
 			this.btnRunScript.Size = new System.Drawing.Size(96, 29);
 			this.btnRunScript.TabIndex = 3;
@@ -116,7 +126,7 @@
 			// 
 			this.lblDateRange.AutoSize = true;
 			this.lblDateRange.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.lblDateRange.Location = new System.Drawing.Point(236, 9);
+			this.lblDateRange.Location = new System.Drawing.Point(319, 9);
 			this.lblDateRange.Name = "lblDateRange";
 			this.lblDateRange.Size = new System.Drawing.Size(144, 16);
 			this.lblDateRange.TabIndex = 6;
@@ -124,8 +134,9 @@
 			// 
 			// dtFrom
 			// 
-			this.dtFrom.CustomFormat = "mm/dd/yyyy";
-			this.dtFrom.Location = new System.Drawing.Point(239, 29);
+			this.dtFrom.CustomFormat = "MMMMdd, yyyy";
+			this.dtFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.dtFrom.Location = new System.Drawing.Point(322, 29);
 			this.dtFrom.Name = "dtFrom";
 			this.dtFrom.Size = new System.Drawing.Size(221, 21);
 			this.dtFrom.TabIndex = 7;
@@ -134,8 +145,9 @@
 			// 
 			// dtTo
 			// 
-			this.dtTo.CustomFormat = "mm/dd/yyyy";
-			this.dtTo.Location = new System.Drawing.Point(466, 29);
+			this.dtTo.CustomFormat = "MMMMdd, yyyy";
+			this.dtTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+			this.dtTo.Location = new System.Drawing.Point(549, 29);
 			this.dtTo.MinDate = new System.DateTime(2018, 1, 11, 0, 0, 0, 0);
 			this.dtTo.Name = "dtTo";
 			this.dtTo.Size = new System.Drawing.Size(221, 21);
@@ -151,7 +163,7 @@
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(697, 515);
+			this.ClientSize = new System.Drawing.Size(782, 515);
 			this.Controls.Add(this.dtTo);
 			this.Controls.Add(this.dtFrom);
 			this.Controls.Add(this.lblDateRange);
@@ -186,6 +198,7 @@
 		private System.Windows.Forms.DateTimePicker dtFrom;
 		private System.Windows.Forms.DateTimePicker dtTo;
 		public System.ServiceProcess.ServiceController sqlService;
+		private System.Windows.Forms.ColumnHeader colNetName;
 	}
 }
 
