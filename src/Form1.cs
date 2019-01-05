@@ -21,7 +21,7 @@ namespace PyNetManager {
 			PopulateListView();
 			SizeLastColumn(lv: lsSpeeds);
 			dtFrom.Value = new DateTime(2018, 11, 11);
-			dtTo.Value = DateTime.Today;
+			dtTo.Value = DateTime.Today.AddDays(1.0D);
 		}
 
 		private void PopulateListView() {
@@ -29,8 +29,14 @@ namespace PyNetManager {
 													   Initial Catalog=PyNet;
 													   Trusted_Connection=yes;");
 
-			string strSQL = "SELECT * FROM view_net_speeds " +
-							"WHERE DateLogged BETWEEN '" + dtFrom.Value + "' AND '" + dtTo.Value + "' " +
+			string strSQL = "SELECT ID," +
+							"       Upload," +
+							"       Download," +
+							"       Network," +
+							"       DateLogged" +
+							"FROM view_net_speeds " +
+							"WHERE DateLogged BETWEEN CONVERT(datetime, '" + dtFrom.Value + "') " +
+							"AND CONVERT(datetime, '" + dtTo.Value + "') " +
 							"ORDER BY ID DESC;";
 		Connect:
 			try {
