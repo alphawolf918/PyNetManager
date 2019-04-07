@@ -157,7 +157,7 @@ namespace PyNetManager {
 			// 
 			// sqlService
 			// 
-			this.sqlService.ServiceName = "MSSQL$SQLEXPRESS01";
+			//this.sqlService.ServiceName = "MSSQL$SQLEXPRESS01";
 			// 
 			// FrmMain
 			// 

@@ -3,8 +3,11 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.ServiceProcess;
 using System.Windows.Forms;
+using IniParser; //Installed Ini-Parser with NuGet
+using IniParser.Model; //Installed Ini-Parser with NuGet
 
 namespace PyNetManager {
 
@@ -12,28 +15,47 @@ namespace PyNetManager {
 
 		private const string conErrorStr = "Could not establish database connection: \n\n";
 
+		string confSection = "DEFAULT";
+		string sqlDataSrc;
+		string sqlDb;
+
+		int startMonth;
+		int startDay;
+		int startYear;
+
 		public FrmMain() => InitializeComponent();
 
 		private void FrmMain_Load(object sender, EventArgs e) {
+			FileIniDataParser parser = new FileIniDataParser();
+			IniData data = parser.ReadFile(filePath: Directory.GetCurrentDirectory() + @"\config.ini");
+
+			sqlService.ServiceName = data[confSection]["Service"];
+			sqlDataSrc = data[confSection]["Server"];
+			sqlDb = data[confSection]["Database"];
+
+			startMonth = CInt(data[confSection]["StartMonth"]);
+			startDay = CInt(data[confSection]["StartDay"]);
+			startYear = CInt(data[confSection]["StartYear"]);
+
 			if (sqlService.Status == ServiceControllerStatus.Stopped) {
 				sqlService.Start();
 			}
+
 			PopulateListView();
 			SizeLastColumn(lv: lsSpeeds);
-			dtFrom.Value = new DateTime(2018, 11, 11);
+			dtFrom.Value = new DateTime(startYear, startMonth, startDay);
 			dtTo.Value = DateTime.Today.AddDays(1.0D);
 		}
 
 		private void PopulateListView() {
-			SqlConnection sqlCon = new SqlConnection(@"Data Source=localhost\SQLEXPRESS01;
-													   Initial Catalog=PyNet;
-													   Trusted_Connection=yes;");
-
+			SqlConnection sqlCon = new SqlConnection(@"Data Source=" + sqlDataSrc + ";" +
+													  "Initial Catalog=" + sqlDb + ";" +
+													  "Trusted_Connection=yes;");
 			string strSQL = "SELECT ID," +
 							"       Upload," +
 							"       Download," +
 							"       Network," +
-							"       DateLogged" +
+							"       DateLogged " +
 							"FROM view_net_speeds " +
 							"WHERE DateLogged BETWEEN CONVERT(datetime, '" + dtFrom.Value + "') " +
 							"AND CONVERT(datetime, '" + dtTo.Value + "') " +
@@ -99,6 +121,7 @@ namespace PyNetManager {
 		}
 
 		private string CStr(object value) => Convert.ToString(value);
+		private int CInt(object value) => Convert.ToInt32(value);
 		private void SizeLastColumn(ListView lv) => lv.Columns[lv.Columns.Count - 1].Width = -2;
 		private void btnRefresh_Click(object sender, EventArgs e) => RefreshList();
 		private void dtFrom_ValueChanged(object sender, EventArgs e) => RefreshList();
